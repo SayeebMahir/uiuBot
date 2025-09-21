@@ -1,4 +1,4 @@
-# uiuBot (MERN + 2FA + RAG scaffold)
+# uiuBot (MERN + 2FA + RAG)
 
 Quick start:
 
