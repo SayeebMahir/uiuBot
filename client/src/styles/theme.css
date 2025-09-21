@@ -1,0 +1,54 @@
+:root{--orange:#ff6a00;--orange-700:#e05a00;--bg:#ffffff;--text:#1a1a1a;--muted:#666;--border:#eee}
+*{box-sizing:border-box}html,body,#root{height:100%}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:var(--bg);color:var(--text)}
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0}
+.brand{font-weight:800;color:var(--orange)}
+.links a{margin-left:12px;color:var(--orange);text-decoration:none}
+.container{max-width:900px;margin:24px auto;padding:0 16px}
+.card{border:1px solid var(--border);border-radius:10px;padding:20px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.heading{margin:0 0 12px 0;color:var(--orange)}
+.row{display:flex;gap:8px}
+.input{
+  width:100%;
+  padding:10px 12px;
+  border:2px solid #ccc;
+  border-radius:8px;
+  font-size:15px;
+  transition: border-color 0.2s ease;
+}
+.input:focus{
+  outline:none;
+  border-color:#ff6a00;
+  box-shadow:0 0 0 1px rgba(255,106,0,0.1);
+}
+.input::placeholder{
+  color:#666;
+  font-weight:500;
+}
+.button{
+  background:var(--orange);
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.button:disabled{
+  opacity:.6;
+}
+.muted{color:var(--muted)}
+.chat-wrap{display:flex;flex-direction:column;height:70vh}
+.chat-box{flex:1;overflow:auto;border:2px solid #ddd;border-radius:10px;padding:12px;margin-bottom:12px;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,0.05)}
+.message-row{display:flex;align-items:flex-start;gap:8px;margin:16px 0;padding:0 8px}
+.message-row.user{justify-content:flex-end}
+.message-row.assistant{justify-content:flex-start}
+.bubble{padding:10px 12px;border-radius:12px;max-width:75%;margin:0;box-shadow:0 1px 2px rgba(0,0,0,0.05)}
+.bubble.user{background:#fff7f0;border:2px solid #ffc299}
+.bubble.assistant{background:#f6f7f8;border:2px solid #d1d5db}
+.message-row.user .bubble{margin-right:8px}
+.message-row.assistant .bubble{margin-left:8px}
+.avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.bot-avatar{background:#f6f7f8;border:1px solid #e9ecef}
+.user-avatar{background:#fff7f0;border:1px solid #ffd5b3}
+.footer{display:flex;gap:8px}
+
