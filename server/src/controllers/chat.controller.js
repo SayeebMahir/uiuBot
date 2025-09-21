@@ -13,9 +13,16 @@ export async function sendMessage(req, res) {
 
   await Message.create({ userId: req.user.id, role: 'user', content, threadId });
 
-  // Placeholder: RAG service will generate an answer later
-  const answer = 'Thanks for your question. I will fetch university info soon.';
-  const saved = await Message.create({ userId: req.user.id, role: 'assistant', content: answer, threadId });
+  // Simple direct check for calendar keywords
+  if (content.toLowerCase().includes('calendar')) {
+    const pdfUrl = '/static/documents/academic-calendar.pdf';
+    const answer = `Here's the Academic Calendar for your reference. You can view or download it here: [View Academic Calendar](${pdfUrl})`;
+    const saved = await Message.create({ userId: req.user.id, role: 'assistant', content: answer, threadId });
+    return res.json({ message: answer, threadId });
+  }
+
+  // Default response
+  const saved = await Message.create({ userId: req.user.id, role: 'assistant', content: 'Thanks for your question. I will fetch university info soon.', threadId });
   return res.json({ message: saved.content, threadId });
 }
 

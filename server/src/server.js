@@ -26,6 +26,9 @@ app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.disable('x-powered-by');
 
+// Serve static files from public directory
+app.use('/static', express.static('public'));
+
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200 });
 app.use(limiter);
 
