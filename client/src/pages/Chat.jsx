@@ -48,7 +48,22 @@ export default function Chat() {
               </div>
             )}
             <div className={`bubble ${m.role}`}>
-              {m.content}
+              {m.content.includes('[View Academic Calendar]') ? (
+                <div>
+                  Here's the Academic Calendar for your reference.{' '}
+                  <a
+                    href={'http://localhost:5000/static/documents/academic-calendar.pdf'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pdf-link"
+                    style={{ color: '#ff6a00', textDecoration: 'underline' }}
+                  >
+                    Click here to view/download PDF
+                  </a>
+                </div>
+              ) : (
+                m.content
+              )}
             </div>
             {m.role === 'user' && (
               <div className="avatar user-avatar">

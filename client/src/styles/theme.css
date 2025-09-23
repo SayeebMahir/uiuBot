@@ -51,4 +51,6 @@
 .bot-avatar{background:#f6f7f8;border:1px solid #e9ecef}
 .user-avatar{background:#fff7f0;border:1px solid #ffd5b3}
 .footer{display:flex;gap:8px}
+.pdf-link{color:var(--orange);text-decoration:none;font-weight:500}
+.pdf-link:hover{text-decoration:underline}
 
