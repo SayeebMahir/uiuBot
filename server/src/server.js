@@ -40,11 +40,26 @@ app.use('/api/chat', chatRoutes);
 app.use(errorHandler);
 
 async function start() {
-  await connectToDatabase();
-  app.listen(env.port, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Server running on http://localhost:${env.port}`);
-  });
+  try {
+    await connectToDatabase();
+    const server = app.listen(env.port, () => {
+      // eslint-disable-next-line no-console
+      console.log(`Server running on http://localhost:${env.port}`);
+    });
+
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        const alternatePort = env.port + 1;
+        console.log(`Port ${env.port} is in use, trying port ${alternatePort}`);
+        server.listen(alternatePort);
+      } else {
+        console.error('Server error:', err);
+      }
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
 }
 
 start();

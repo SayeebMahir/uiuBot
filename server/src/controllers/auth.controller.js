@@ -5,7 +5,7 @@ import Session from '../models/Session.js';
 import Otp from '../models/Otp.js';
 import { env } from '../config/env.js';
 import { generateAccessToken } from '../services/token.service.js';
-import { generateTotpSecret, verifyTotp, sendEmailOtp } from '../services/otp.service.js';
+import { myGenerateCode, verifyCode, sendEmailOtp, generateTotpSecret } from '../services/otp.service.js';
 
 const registerSchema = z.object({
   email: z.string().email(),
@@ -21,18 +21,36 @@ const registerSchema = z.object({
 });
 
 export async function register(req, res) {
-  const parsed = registerSchema.safeParse(req.body);
-  if (!parsed.success) return res.status(400).json({ message: 'Invalid input' });
-  const { email, studentId, name, password } = parsed.data;
+  try {
+    console.log('Registration request received:', req.body);
+    
+    const parsed = registerSchema.safeParse(req.body);
+    if (!parsed.success) {
+      console.log('Validation failed:', parsed.error);
+      return res.status(400).json({ message: 'Invalid input', errors: parsed.error.errors });
+    }
+    
+    const { email, studentId, name, password } = parsed.data;
+    console.log('Parsed registration data:', { email, studentId, name });
 
-  const exists = await User.findOne({ $or: [{ email }, { studentId }] });
-  if (exists) return res.status(409).json({ message: 'User already exists' });
+    const exists = await User.findOne({ $or: [{ email }, { studentId }] });
+    if (exists) {
+      console.log('User already exists with email or studentId');
+      return res.status(409).json({ message: 'User already exists' });
+    }
 
-  const passwordHash = await User.hashPassword(password);
-  const { secret } = generateTotpSecret(email);
+    const passwordHash = await User.hashPassword(password);
+    const { secret } = generateTotpSecret(email);
 
-  const user = await User.create({ email, studentId, name, passwordHash, twoFactorSecret: secret });
-  return res.status(201).json({ message: 'Registered. Please login.' });
+    console.log('Creating new user...');
+    const user = await User.create({ email, studentId, name, passwordHash, twoFactorSecret: secret });
+    console.log('User created successfully:', user._id);
+    
+    return res.status(201).json({ message: 'Registered. Please login.' });
+  } catch (error) {
+    console.error('Registration error:', error);
+    return res.status(500).json({ message: 'Registration failed', error: error.message });
+  }
 }
 
 const loginSchema = z.object({
@@ -50,11 +68,16 @@ export async function login(req, res) {
   const ok = await user.comparePassword(password);
   if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
 
-  // Send OTP (email code) as 2FA step
-  const code = String(Math.floor(100000 + Math.random() * 900000));
+  // Generate and send OTP using our custom function
+  const code = myGenerateCode();
   const expiresAt = new Date(Date.now() + env.otpExpirySec * 1000);
   await Otp.create({ userId: user._id, code, purpose: 'login', expiresAt });
   await sendEmailOtp(user.email, code);
+
+  // Log in development environment
+  if (env.nodeEnv !== 'production') {
+    console.log('\x1b[32m%s\x1b[0m', `Login attempt for ${email} - OTP generated and sent`); // Green color
+  }
 
   return res.json({ message: 'OTP sent' });
 }
@@ -73,8 +96,13 @@ export async function verify2fa(req, res) {
   if (!user) return res.status(401).json({ message: 'Invalid request' });
 
   const otp = await Otp.findOne({ userId: user._id, purpose: 'login' }).sort({ createdAt: -1 });
-  if (!otp || otp.consumedAt || otp.expiresAt < new Date() || otp.code !== code) {
+  if (!otp || otp.consumedAt || otp.expiresAt < new Date()) {
     return res.status(401).json({ message: 'Invalid or expired code' });
+  }
+
+  // Use our custom verification function
+  if (!verifyCode(code, otp.code)) {
+    return res.status(401).json({ message: 'Invalid code' });
   }
 
   otp.consumedAt = new Date();

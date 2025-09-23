@@ -16,6 +16,8 @@ export const env = {
   smtpUser: process.env.SMTP_USER || '',
   smtpPass: process.env.SMTP_PASS || '',
   otpExpirySec: Number(process.env.OTP_EXPIRY_SEC || 300),
+  // Custom encryption key for email encryption (32 characters for AES-256)
+  encryptionKey: process.env.ENCRYPTION_KEY || '12345678901234567890123456789012',
 };
 
 export default env;
