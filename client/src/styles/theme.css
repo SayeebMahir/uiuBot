@@ -4,7 +4,7 @@
 .brand{font-weight:800;color:var(--orange)}
 .links{display:flex;align-items:center;gap:12px}
 .links a{color:var(--orange);text-decoration:none}
-.links button{color:var(--orange);background:none;border:none;padding:0;font:inherit;cursor:pointer}
+.links button{background:#ffe3cc;color:#8a3c00;border:1px solid #ffc299;padding:8px 12px;border-radius:8px;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06)}
 .links button:disabled{opacity:.6;cursor:not-allowed}
 .container{max-width:900px;margin:24px auto;padding:0 16px}
 .card{border:1px solid var(--border);border-radius:10px;padding:20px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
@@ -56,3 +56,4 @@
 .footer{display:flex;gap:8px}
 .pdf-link{color:var(--orange);text-decoration:none;font-weight:500}
 .pdf-link:hover{text-decoration:underline}
+.logout-button{background:#ffe3cc;color:#8a3c00;border:1px solid #ffc299;padding:8px 12px;border-radius:8px;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06)}\n.logout-button:hover{background:#ffd5b3}\n.logout-button:disabled{opacity:.6;cursor:not-allowed}
