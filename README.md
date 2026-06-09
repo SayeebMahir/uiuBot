@@ -17,13 +17,11 @@
 
 ## 📖 Project Overview
 
-Students frequently spend a significant amount of time searching through university websites, notices, policies, and academic resources to find answers regarding scholarships, tuition waivers, courses, faculty members, admissions, academic regulations, and other university services.
+Students often spend significant time searching through university websites to find information about scholarships, tuition waivers, courses, faculty members, admissions, and academic policies.
 
-The **RAG-Based AI Agent for UIU Students** is an intelligent university assistant designed to simplify this process through conversational AI. Instead of manually navigating multiple webpages, students can ask questions in natural language and receive accurate, context-aware responses instantly.
+RAG-Based AI Agent for UIU Students is an intelligent chatbot that provides instant answers to these queries using Retrieval-Augmented Generation (RAG). The system retrieves relevant information from the UIU website and trusted university resources, then uses GPT-4o Mini to generate accurate, conversational responses.
 
-The system leverages **Retrieval-Augmented Generation (RAG)** to retrieve relevant information from United International University (UIU) web resources and other trusted university-related online sources. The retrieved information is then provided to **GPT-4o Mini**, which generates a clear, human-friendly response grounded in the retrieved context.
-
-This approach significantly reduces information retrieval time while improving accessibility and user experience for students.
+By combining semantic search with AI-powered response generation, the chatbot helps students access university information quickly and efficiently..
 
 ---
 
